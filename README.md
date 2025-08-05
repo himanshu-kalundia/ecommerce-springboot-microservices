@@ -14,8 +14,8 @@ The work is still in progress. Some parts of this project might not work.
 - Added cart service (port 8083). Only a Buyer can access their cart. Sellers don't have carts.
 - Added order service (port 8084). Only a Buyer can put an order. 
 - Added API Gateway (port 8080). There are some authentication issues when routing requests through the API gateway. So, currently, all authentication is disabled. It will be enabled back once the issue is resolved.
+- Added Eureka Naming Server for service discovery.
 
 ## Currently working on
 
 - Resolving issues related to authentication and the API gateway.
-- Adding Eureka Naming Server
