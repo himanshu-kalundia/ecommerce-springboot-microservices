@@ -2,7 +2,7 @@
 
 This is a continuation of https://github.com/programmerboi0987/e-commerce-microservices.git. That account is currently facing some technical issues.
 
-This is an e-commerce microservices project made using Java SpringBoot.
+This is an e-commerce microservices project built using Java Spring Boot.
 
 The work is still in progress. Some parts of this project might not work.
 
@@ -13,7 +13,7 @@ The work is still in progress. Some parts of this project might not work.
 - Added product service (port 8082). Only the Seller can CREATE, UPDATE, or DELETE a product. All users can GET the products.
 - Added cart service (port 8083). Only a Buyer can access their cart. Sellers don't have carts.
 - Added order service (port 8084). Only a Buyer can put an order. 
-- Added API Gateway (port 8080). There are some authentication issues when routing requests through the API gateway. So, currently, all authentication is disabled. It will be enabled back once the issue is resolved.
+- Added API Gateway (port 8080). Now all the services can be accessed at a single port 8080. There are some authentication issues when routing requests through the API gateway. So, currently, all authentication is disabled. It will be enabled back once the issue is resolved.
 - Added Eureka Naming Server for service discovery (port 8761).
 
 ## Currently working on
