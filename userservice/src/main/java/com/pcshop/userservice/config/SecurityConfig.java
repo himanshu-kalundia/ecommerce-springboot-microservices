@@ -27,34 +27,34 @@ public class SecurityConfig {
         return config.getAuthenticationManager();
     }
 
-//    @Bean
-//    public SecurityFilterChain securityFilterChain(HttpSecurity http,
-//                                                   JwtAuthenticationFilter jwtAuthFilter) throws Exception {
-//
-//        http
-//                .csrf(AbstractHttpConfigurer::disable)
-//                .authorizeHttpRequests(auth -> auth
-//                        .requestMatchers(
-//                                "/v3/api-docs/**",
-//                                "/swagger-ui/**",
-//                                "/swagger-ui.html"
-//                        ).permitAll()
-//                        .requestMatchers("/api/auth/signup", "/api/auth/login").permitAll()
-//                        .anyRequest().authenticated()
-//                )
-//                .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
-//
-//        return http.build();
-//    }
-
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain securityFilterChain(HttpSecurity http,
+                                                   JwtAuthenticationFilter jwtAuthFilter) throws Exception {
+
         http
-                .csrf(csrf -> csrf.disable())
+                .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
-                        .anyRequest().permitAll()
-                );
+                        .requestMatchers(
+                                "/v3/api-docs/**",
+                                "/swagger-ui/**",
+                                "/swagger-ui.html"
+                        ).permitAll()
+                        .requestMatchers("/api/auth/signup", "/api/auth/login").permitAll()
+                        .anyRequest().authenticated()
+                )
+                .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
+
         return http.build();
     }
+
+//    @Bean
+//    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+//        http
+//                .csrf(csrf -> csrf.disable())
+//                .authorizeHttpRequests(auth -> auth
+//                        .anyRequest().permitAll()
+//                );
+//        return http.build();
+//    }
 
 }

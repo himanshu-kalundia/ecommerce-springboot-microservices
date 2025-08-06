@@ -1,6 +1,5 @@
 package com.pcshop.orderservice.controller;
 
-import com.pcshop.orderservice.dto.PlaceOrderRequest;
 import com.pcshop.orderservice.model.Order;
 import com.pcshop.orderservice.service.OrderService;
 import org.springframework.http.ResponseEntity;
@@ -21,10 +20,17 @@ public class OrderController {
     }
 
     @PostMapping
-    public ResponseEntity<?> placeOrder(@RequestBody PlaceOrderRequest request,
-                                        Authentication auth) {
-        Order order = service.placeOrder(auth.getName(), request);
-        return ResponseEntity.ok(order);
+    public ResponseEntity<?> placeOrder(Authentication auth,
+                                        @RequestHeader("Authorization") String authHeader) {
+        try {
+            String token = authHeader.replace("Bearer ", "");
+            Order order = service.placeOrder(auth.getName(), token);
+            return ResponseEntity.ok(order);
+        } catch (Exception e) {
+            return ResponseEntity
+                    .badRequest()
+                    .body("Order could not be placed: " + e.getMessage());
+        }
     }
 
     @GetMapping

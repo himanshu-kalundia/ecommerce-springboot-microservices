@@ -3,6 +3,7 @@ package com.pcshop.orderservice.model;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -19,7 +20,11 @@ public class Order {
 
     private double totalAmount;
 
+    private String deliveryAddress;
+
     private LocalDateTime orderDate = LocalDateTime.now();
+
+    private LocalDate expectedDeliveryDate = LocalDate.now().plusDays(7);
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
     @JsonManagedReference
@@ -51,12 +56,28 @@ public class Order {
         this.totalAmount = totalAmount;
     }
 
+    public String getDeliveryAddress() {
+        return deliveryAddress;
+    }
+
+    public void setDeliveryAddress(String deliveryAddress) {
+        this.deliveryAddress = deliveryAddress;
+    }
+
     public LocalDateTime getOrderDate() {
         return orderDate;
     }
 
     public void setOrderDate(LocalDateTime orderDate) {
         this.orderDate = orderDate;
+    }
+
+    public LocalDate getExpectedDeliveryDate() {
+        return expectedDeliveryDate;
+    }
+
+    public void setExpectedDeliveryDate(LocalDate expectedDeliveryDate) {
+        this.expectedDeliveryDate = expectedDeliveryDate;
     }
 
     public List<OrderItem> getItems() {

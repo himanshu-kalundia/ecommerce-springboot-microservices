@@ -27,10 +27,11 @@ public class UserService {
         return userRepository.findByUsername(username).isPresent();
     }
 
-    public User saveUser(String username, String rawPassword, Set<String> roles) {
+    public User saveUser(String username, String rawPassword, String deliveryAddress, Set<String> roles) {
         User user = new User();
         user.setUsername(username);
         user.setPassword(passwordEncoder.encode(rawPassword));
+        user.setDeliveryAddress(deliveryAddress);
         user.setRoles(roles);
         return userRepository.save(user);
     }

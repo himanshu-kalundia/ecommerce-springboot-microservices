@@ -15,6 +15,9 @@ public class SignupRequest {
     @Size(min = 6, message = "Password must be at least 6 characters")
     private String password;
 
+    @NotBlank(message = "Delivery address is required")
+    private String deliveryAddress;
+
     private Set<String> roles;
 
     // Getters and Setters
@@ -33,6 +36,14 @@ public class SignupRequest {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getDeliveryAddress() {
+        return deliveryAddress;
+    }
+
+    public void setDeliveryAddress(String deliveryAddress) {
+        this.deliveryAddress = deliveryAddress;
     }
 
     public Set<String> getRoles() {

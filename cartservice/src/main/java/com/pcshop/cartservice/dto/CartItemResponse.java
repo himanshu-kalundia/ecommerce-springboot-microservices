@@ -1,16 +1,7 @@
-package com.pcshop.cartservice.model;
+package com.pcshop.cartservice.dto;
 
-import jakarta.persistence.*;
-import java.time.LocalDateTime;
-
-@Entity
-public class CartItem {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class CartItemResponse {
     private Long id;
-
-    private String userId;       // extracted from JWT
     private Long productId;
     private String productName;
     private String brand;
@@ -28,14 +19,6 @@ public class CartItem {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public String getUserId() {
-        return userId;
-    }
-
-    public void setUserId(String userId) {
-        this.userId = userId;
     }
 
     public Long getProductId() {
@@ -102,3 +85,4 @@ public class CartItem {
         this.totalPrice = totalPrice;
     }
 }
+

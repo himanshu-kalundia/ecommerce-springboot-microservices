@@ -44,6 +44,7 @@ public class AuthController {
 
         userService.saveUser(signupRequest.getUsername(),
                 signupRequest.getPassword(),
+                signupRequest.getDeliveryAddress(),
                 roles);
 
         return ResponseEntity.ok("User registered successfully");

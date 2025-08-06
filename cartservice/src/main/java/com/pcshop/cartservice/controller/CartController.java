@@ -1,7 +1,7 @@
 package com.pcshop.cartservice.controller;
 
 import com.pcshop.cartservice.dto.AddToCartRequest;
-import com.pcshop.cartservice.model.CartItem;
+import com.pcshop.cartservice.dto.CartItemResponse;
 import com.pcshop.cartservice.service.CartService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -19,26 +19,33 @@ public class CartController {
         this.service = service;
     }
 
+    // GET /api/cart - returns enriched product info + total prices
     @GetMapping
-    public ResponseEntity<List<CartItem>> getCart(Authentication authentication) {
-        return ResponseEntity.ok(service.getCartItems(authentication.getName()));
+    public ResponseEntity<List<CartItemResponse>> getCart(Authentication authentication) {
+        String username = authentication.getName();
+        return ResponseEntity.ok(service.getCartItems(username));
     }
 
+    // POST /api/cart - adds product to cart with enrichment
     @PostMapping
-    public ResponseEntity<CartItem> addToCart(@RequestBody AddToCartRequest request,
-                                              Authentication authentication) {
-        return ResponseEntity.ok(service.addToCart(authentication.getName(), request));
+    public ResponseEntity<CartItemResponse> addToCart(@RequestBody AddToCartRequest request,
+                                                      Authentication authentication) {
+        String username = authentication.getName();
+        return ResponseEntity.ok(service.addToCart(username, request));
     }
 
+    // DELETE /api/cart/{itemId} - removes one cart item
     @DeleteMapping("/{itemId}")
     public ResponseEntity<?> removeItem(@PathVariable Long itemId) {
         service.removeItem(itemId);
         return ResponseEntity.ok("Item removed");
     }
 
+    // DELETE /api/cart - clears entire cart for user
     @DeleteMapping
     public ResponseEntity<?> clearCart(Authentication authentication) {
-        service.clearCart(authentication.getName());
+        String username = authentication.getName();
+        service.clearCart(username);
         return ResponseEntity.ok("Cart cleared");
     }
 }

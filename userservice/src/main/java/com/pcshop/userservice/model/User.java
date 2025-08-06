@@ -18,6 +18,9 @@ public class User {
     @Column(nullable = false)
     private String password;
 
+    @Column(nullable = false)
+    private String deliveryAddress;
+
     @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"))
     @Column(name = "role")
@@ -26,9 +29,10 @@ public class User {
     // Constructors
     public User() {}
 
-    public User(String username, String password, Set<String> roles) {
+    public User(String username, String password, String deliveryAddress, Set<String> roles) {
         this.username = username;
         this.password = password;
+        this.deliveryAddress = deliveryAddress;
         this.roles = roles;
     }
 
@@ -56,6 +60,14 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getDeliveryAddress() {
+        return deliveryAddress;
+    }
+
+    public void setDeliveryAddress(String deliveryAddress) {
+        this.deliveryAddress = deliveryAddress;
     }
 
     public Set<String> getRoles() {
