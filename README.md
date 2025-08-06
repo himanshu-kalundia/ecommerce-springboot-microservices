@@ -19,3 +19,4 @@ The work is still in progress. Some parts of this project might not work.
 ## Currently working on
 
 - Resolving issues related to authentication and the API gateway.
+- Currently, all the services work independently. I am developing a flow of interaction among these services themselves.
