@@ -9,7 +9,7 @@ import org.springframework.web.client.RestTemplate;
 public class RestTemplateConfig {
 
     @Bean
-    @LoadBalanced // this enables Eureka-based name resolution
+//    @LoadBalanced // this enables Eureka-based name resolution
     public RestTemplate restTemplate() {
         return new RestTemplate();
     }

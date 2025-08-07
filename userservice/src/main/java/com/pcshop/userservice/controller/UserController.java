@@ -7,6 +7,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.HashMap;
 import java.util.Map;
 
 @RestController
@@ -18,19 +19,46 @@ public class UserController {
         this.userService = userService;
     }
 
-    @GetMapping("api/user/me")
-    public ResponseEntity<?> getCurrentUser(Authentication authentication) {
-        String username = authentication.getName();
-        User user = userService.findByUsername(username);
+//    @GetMapping("api/user/me")
+//    public ResponseEntity<?> getCurrentUser(Authentication authentication) {
+//        String username = authentication.getName();
+//        User user = userService.findByUsername(username);
+//
+//        if (user == null) {
+//            return ResponseEntity.notFound().build();
+//        }
+//
+//        return ResponseEntity.ok(Map.of(
+//                "username", user.getUsername(),
+//                "roles", user.getRoles(),
+//                "deliveryAddress", user.getDeliveryAddress()
+//        ));
+//    }
 
-        if (user == null) {
-            return ResponseEntity.notFound().build();
+    @GetMapping("/api/user/me")
+    public ResponseEntity<?> getCurrentUser(Authentication authentication) {
+        System.out.println("🔍 Authentication: " + authentication);
+        if (authentication == null) {
+            return ResponseEntity.status(401).body("Unauthenticated");
         }
 
-        return ResponseEntity.ok(Map.of(
-                "username", user.getUsername(),
-                "roles", user.getRoles(),
-                "deliveryAddress", user.getDeliveryAddress()
-        ));
+        String username = authentication.getName();
+        System.out.println("🔍 Authenticated Username: " + username);
+
+        User user = userService.findByUsername(username);
+        if (user == null) {
+            return ResponseEntity.status(404).body("User not found");
+        }
+
+        // Log for debugging
+        System.out.println("Found User: " + user.getUsername() + ", Address: " + user.getDeliveryAddress());
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("username", user.getUsername());
+        response.put("deliveryAddress", user.getDeliveryAddress());
+        response.put("roles", user.getRoles());
+
+        return ResponseEntity.ok(response);
     }
+
 }

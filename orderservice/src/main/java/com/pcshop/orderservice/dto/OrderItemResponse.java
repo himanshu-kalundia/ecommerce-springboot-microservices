@@ -1,26 +1,13 @@
-package com.pcshop.orderservice.model;
+package com.pcshop.orderservice.dto;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import jakarta.persistence.*;
-
-@Entity
-public class OrderItem {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class OrderItemResponse {
     private Long id;
-
     private Long productId;
     private int quantity;
     private double unitPrice;
     private double totalPrice;
 
-    @ManyToOne
-    @JoinColumn(name = "order_id")
-    @JsonBackReference
-    private Order order;
-
-    // getters/setters
+    // Getters & setters
 
     public Long getId() {
         return id;
@@ -61,13 +48,4 @@ public class OrderItem {
     public void setTotalPrice(double totalPrice) {
         this.totalPrice = totalPrice;
     }
-
-    public Order getOrder() {
-        return order;
-    }
-
-    public void setOrder(Order order) {
-        this.order = order;
-    }
 }
-
