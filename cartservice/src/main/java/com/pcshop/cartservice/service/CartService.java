@@ -1,5 +1,6 @@
 package com.pcshop.cartservice.service;
 
+import com.pcshop.cartservice.client.ProductServiceClient;
 import com.pcshop.cartservice.dto.AddToCartRequest;
 import com.pcshop.cartservice.dto.CartItemResponse;
 import com.pcshop.cartservice.dto.ProductResponse;
@@ -7,7 +8,6 @@ import com.pcshop.cartservice.model.CartItem;
 import com.pcshop.cartservice.repository.CartItemRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -16,11 +16,11 @@ import java.util.stream.Collectors;
 public class CartService {
 
     private final CartItemRepository repository;
-    private final RestTemplate restTemplate;
+    private final ProductServiceClient productClient;
 
-    public CartService(CartItemRepository repository) {
+    public CartService(CartItemRepository repository, ProductServiceClient productClient) {
         this.repository = repository;
-        this.restTemplate = new RestTemplate(); // or inject it as a @Bean
+        this.productClient = productClient; // or inject it as a @Bean
     }
 
     public List<CartItemResponse> getCartItems(String userId) {
@@ -77,7 +77,6 @@ public class CartService {
     }
 
     private ProductResponse fetchProductDetails(Long productId) {
-        String url = "http://localhost:8082/api/products/" + productId;
-        return restTemplate.getForObject(url, ProductResponse.class);
+        return productClient.getProductById(productId);
     }
 }
