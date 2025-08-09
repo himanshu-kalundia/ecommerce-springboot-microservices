@@ -3,7 +3,7 @@
 All notable changes to this project will be documented in this file.
 
 
-## [Unreleased]
+## [2025-08-09]
 - Containerized all microservices using Docker. Added a docker-compose.yml to orchestrate and run the entire system with a single command. Configured MySQL as a containerized service with persistent storage using Docker volumes.
 
 ## [2025-08-08]
