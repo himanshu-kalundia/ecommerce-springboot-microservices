@@ -4,9 +4,7 @@ All notable changes to this project will be documented in this file.
 
 
 ## [Unreleased]
-- Thorough testing of APIs for finding any bugs.
-- Work on improving the performance and security of APIs.
-- Containerize the application using Docker.
+- Containerized all microservices using Docker. Added a docker-compose.yml to orchestrate and run the entire system with a single command. Configured MySQL as a containerized service with persistent storage using Docker volumes.
 
 ## [2025-08-08]
 - API Gateway is also working now. Removed authentication from API Gateway. All authentication will be handled by services independently.

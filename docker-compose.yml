@@ -1,0 +1,108 @@
+version: '3.8'
+services:
+  discovery-server:
+    build: ./discoveryserver
+    container_name: discovery-server
+    ports:
+      - "8761:8761"
+    networks:
+      - ecommerce-net
+
+  mysql:
+    image: mysql:8.0
+    container_name: mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: ecommerce
+      MYSQL_USER: user
+      MYSQL_PASSWORD: password
+    ports:
+      - "3307:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    networks:
+      - ecommerce-net
+
+  apigateway:
+    build: ./apigateway
+    container_name: apigateway
+    ports:
+      - "8765:8765"
+    depends_on:
+      - discovery-server
+      - mysql
+    environment:
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: "http://discovery-server:8761/eureka/"
+    networks:
+      - ecommerce-net
+
+  userservice:
+    build: ./userservice
+    container_name: userservice
+    ports:
+      - "8081:8081"
+    depends_on:
+      - discovery-server
+      - mysql
+    environment:
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: "http://discovery-server:8761/eureka/"
+      SPRING_DATASOURCE_URL: "jdbc:mysql://mysql:3306/ecommerce"
+      SPRING_DATASOURCE_USERNAME: "root"
+      SPRING_DATASOURCE_PASSWORD: "root"
+    networks:
+      - ecommerce-net
+
+  productservice:
+    build: ./productservice
+    container_name: productservice
+    ports:
+      - "8082:8082"
+    depends_on:
+      - discovery-server
+      - mysql
+    environment:
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: "http://discovery-server:8761/eureka/"
+      SPRING_DATASOURCE_URL: "jdbc:mysql://mysql:3306/ecommerce"
+      SPRING_DATASOURCE_USERNAME: "root"
+      SPRING_DATASOURCE_PASSWORD: "root"
+    networks:
+      - ecommerce-net
+
+  cartservice:
+    build: ./cartservice
+    container_name: cartservice
+    ports:
+      - "8083:8083"
+    depends_on:
+      - discovery-server
+      - mysql
+    environment:
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: "http://discovery-server:8761/eureka/"
+      SPRING_DATASOURCE_URL: "jdbc:mysql://mysql:3306/ecommerce"
+      SPRING_DATASOURCE_USERNAME: "root"
+      SPRING_DATASOURCE_PASSWORD: "root"
+    networks:
+      - ecommerce-net
+
+  orderservice:
+    build: ./orderservice
+    container_name: orderservice
+    ports:
+      - "8084:8084"
+    depends_on:
+      - discovery-server
+      - mysql
+    environment:
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: "http://discovery-server:8761/eureka/"
+      SPRING_DATASOURCE_URL: "jdbc:mysql://mysql:3306/ecommerce"
+      SPRING_DATASOURCE_USERNAME: "root"
+      SPRING_DATASOURCE_PASSWORD: "root"
+    networks:
+      - ecommerce-net
+
+networks:
+  ecommerce-net:
+    driver: bridge
+
+volumes:
+  mysql_data:
